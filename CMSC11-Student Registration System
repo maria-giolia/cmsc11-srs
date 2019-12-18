@@ -1,0 +1,1244 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <math.h>
+
+//[Simple Student Information Database]
+//MAIN RULE: "If it works... don't touch it". :)
+
+//Please Full Screen after running to view clearly.
+
+//Framework for a Student Information
+struct main {
+	int id;
+	char lastName[30];
+	char firstName[30];
+	char section[10];
+	int score1;
+	int score2;
+	int score3;
+	int total;
+	char sub1[20];
+	char sub2[20];
+	char sub3[20];
+};
+
+
+//Framework for a Subject Information
+struct subject {
+	int idSub; 	// subject ID
+	char codeSub[70]; 	// subject Code
+	char titleSub[70]; 	// Subject Title
+};
+
+
+//Declare 500 available slots each
+struct main students[500];
+struct subject subs[500];
+
+//Dummy structs(Scratch Paper)
+struct main p1 = {};
+struct subject p2 = {};
+
+//Number of Subjects and Students
+int numberOfSubs;
+int numOfElements;
+
+					//Declaration of Functions
+
+//Subject Functions
+void displaySubs();									// Display a Subject Record
+void importSubs();									// Import a Subject Record
+void addSubs();										// Create a Subject Record
+void deleteSubs();									// Delete a Subject Record
+void updateSubs();									// Update a Subject Record
+void exportSubs();
+void searchSubs();									// Search a Subject Record
+//
+//void subjectToFile();							// Subject to File
+//void fileToSubject();							// Display All Subjects
+//
+////Student Functions
+void addStuds();								// Create a New Student Record
+void updateStuds();								// Update a Student Record
+void enrollStuds();							  	// Enroll a Student to a Subject
+void exportStuds();								// Export Student Record
+void searchStuds();								// Search for Student
+void deleteStuds();								// Delete a Student Record
+void displayStuds();
+void importStuds();								// Import File
+void exportStuds();								// Export File
+void dropStuds();
+//
+//
+////Sorting
+void alphabetize();								// Function for Alphabetize
+//
+////Miscelanenous
+void tabs1(char word[]);						// Front End
+void tabs2(char word[]);						// Front End
+void tabs3(char word[]);						// Front End
+void tabs4(char word[]);						// Front End
+//
+int stringCompare(char s1[], char s2[]);		// Function for String Compare
+int toLower(char ch);							// Function to Lowercase
+int toUpper(char ch);							// Function for Uppercase
+
+//Begin
+int main(void) {
+	system("COLOR F0");
+	printf("\n\t\t\t\t[INITIATE FULL SCREEN FOR CLEARER VIEW OF THE DATABASE]\n\n\n");
+	printf("\t\t\t\t\t");	system("pause");
+	system("cls");
+
+	printf("\t\t\t\t __________________________________________________________________________________________\n ");
+    printf("\t\t\t\t|                                                                                          |\n ");
+    printf("\t\t\t\t|                                                                                          |\n ");
+    printf("\t\t\t\t|   ***       ***  ********  ***         ******      ******    *****   *****  ********     |\n ");
+    printf("\t\t\t\t|   ***       ***  ********  ***        ***   ***   ***  ***   *** ** ** ***  ********     |\n ");
+    printf("\t\t\t\t|   ***       ***  ***       ***       ***    ***  ***    ***  ***  ***  ***  ***          |\n ");
+    printf("\t\t\t\t|   ***       ***  ***	     ***       ***    ***  ***    ***  ***  ***  ***  ***          |\n ");
+    printf("\t\t\t\t|   ***       ***  ********  ***       ***    ***  ***    ***  ***  ***  ***  *****        |\n ");
+    printf("\t\t\t\t|   ***       ***  ********  ***       ***         ***    ***  ***  ***  ***  *****        |\n ");
+    printf("\t\t\t\t|    *** *** ***   ***	     ***       ***    ***  ***    ***  ***       ***  ***          |\n ");
+    printf("\t\t\t\t|    *** * * ***   ***	     ***       ***    ***  ***    ***  ***       ***  ***          |\n ");
+    printf("\t\t\t\t|     ***   ***    ********  ********   ***   ***   ***  ***   ***       ***  ********     |\n ");
+    printf("\t\t\t\t|      **   **     ********  ********    ******      ******    ***       ***  ********     |\n ");
+    printf("\t\t\t\t|                                                                                          |\n ");
+    printf("\t\t\t\t|                         COMPUTER SCIENCE STUDENT RECORD SYSTEM                           |\n ");
+    printf("\t\t\t\t|__________________________________________________________________________________________|\n\n");
+	printf("\t\t\t\t\t\t\t\t");	system("pause");
+	system("cls");
+	
+	int loop =1;
+	int choice=5;
+		while (loop == 1) {
+
+			//HEADER
+				printf("\n\n");
+				printf("\t\t\t");printf("%c",201);
+				int i;
+				for(i=1;i<=80;i++) {
+					printf("%c",205);
+				}
+				printf("%c\n",187);
+				printf("\t\t\t%c                                                                                %c\n",186,186);
+				printf("\t\t\t%c                       [UNIVERSITY OF THE PHILIPPINES]                          %c\n",186,186);
+				printf("\t\t\t%c                  [COMPUTER SCIENCE STUDENT DATABASE SYSTEM]                    %c\n",186,186);
+				printf("\t\t\t%c                                                                                %c\n",186,186);
+				printf("\t\t\t");printf("%c",201);for(i=1;i<=80;i++){printf("%c",205);}printf("%c\n",187);
+				printf("\t\t\t%c             [STUDENT]                              [SUBJECT]                   %c\n",186,186);
+				printf("\t\t\t%c                                                                                %c\n",186,186);
+		        printf("\t\t\t%c [Press 1.] Create a Student Record        [Press 6.] Create a Subject Record   %c\n",186,186);
+		        printf("\t\t\t%c                                                                                %c\n",186,186);
+		        printf("\t\t\t%c [Press 2.] Update a Student Record        [Press 7.] Update a Subject Record   %c\n",186,186);
+		        printf("\t\t\t%c                                                                                %c\n",186,186);
+		        printf("\t\t\t%c [Press 3.] Search a Student Record        [Press 8.] Search a Subject Record   %c\n",186,186);
+		        printf("\t\t\t%c                                                                                %c\n",186,186);
+		        printf("\t\t\t%c [Press 4.] Delete a Student Record        [Press 9.] Delete a Subject Record   %c\n",186,186);
+		        printf("\t\t\t%c                                                                                %c\n",186,186);
+		        printf("\t\t\t%c [Press 5.] Display Student Record         [Press 10.] Display Subject Record   %c\n",186,186);
+		        printf("\t\t\t%c                                                                                %c\n",186,186);
+		        printf("\t\t\t%c       *****************************************************************        %c\n",186,186);
+		        printf("\t\t\t%c                                                                                %c\n",186,186);
+		        printf("\t\t\t%c [Press 11.] Enroll a Student              [Press 12.] Drop a Student           %c\n",186,186);
+		        printf("\t\t\t%c                                                                                %c\n",186,186);
+				printf("\t\t\t%c [Press 13.] Import Student File           [Press 14.] Import Subject File      %c\n",186,186);
+				printf("\t\t\t%c                                                                                %c\n",186,186);
+		        printf("\t\t\t%c [Press 15.] Export Student File           [Press 16.] Export Subject File      %c\n",186,186);
+		        printf("\t\t\t%c                                                                                %c\n",186,186);
+		        printf("\t\t\t%c                            [Press 0.] EXIT                                     %c\n",186,186);
+		        printf("\t\t\t%c                                                                                %c\n",186,186);
+		        printf("\t\t\t");printf("%c",200);for(i=1;i<=80;i++){printf("%c",205);}printf("%c\n",188);
+		        printf("\t\t\t I N P U T  C H O I C E :  " );
+		    //HEADER
+        scanf("%d", &choice); 
+        printf("\n");
+				if(choice==1) {
+					addStuds();
+				}else if(choice==2) {
+					updateStuds();					
+				}else if(choice==3) {
+					searchStuds();					
+				}else if(choice==4) {
+					deleteStuds();			
+				}else if(choice==5) {
+					displayStuds();
+				}else if(choice==6) {
+					addSubs();
+				}else if(choice==7){
+					updateSubs();			
+				}else if(choice==8) {
+					searchSubs();
+				}else if(choice==9) {
+					deleteSubs();
+				}else if(choice==10) {
+					displaySubs();
+				} else if(choice==11) {
+					enrollStuds();
+				}else if(choice==12) {
+					dropStuds();
+				}else if(choice==13) {
+					importStuds();	
+				}else if(choice==14) {
+					importSubs();
+				}else if(choice==15) {
+					exportStuds();
+				}else if(choice==16) {
+					exportSubs();
+				}else if(choice==0) {
+					break;
+				}
+		}
+	return 0;
+}
+
+void importStuds() {
+	//This will be the File to be Opened
+	FILE *fPointer;
+	char name[100];
+	int i=0;
+	printf("[File Name (ex. file1.txt)]: ");
+	scanf(" %[^\n]", name);
+	fPointer = fopen(name, "r+");
+	if(fPointer==NULL) {
+		printf("\n[No file existing under that name]\n");
+		system("pause");
+		system("cls");
+	} else {
+	numOfElements=0;
+		while(!feof(fPointer)) {
+			numOfElements++;
+			fscanf(fPointer, "%d,%[^,],%[^,],%[^,],%d,%d,%d,%[^,],%[^,],%[^\n]", &p1.id, p1.lastName, p1.firstName, p1.section, &p1.score1, &p1.score2, &p1.score3, p1.sub1, p1.sub2, p1.sub3);
+			p1.total = p1.score1+p1.score2+p1.score3;
+			students[i]=p1;
+			i++;
+	alphabetize();
+	}
+}
+	fclose(fPointer);
+}
+
+void alphabetize() {
+int d;
+		for(d=0;d<numOfElements;d++) {
+			char x, z;
+			int i = 0, y = 0;
+			for(;i<numOfElements-1;i++) {
+				if(stringCompare(students[i].lastName, students[i+1].lastName)==1) {
+					p1 = students[i];
+					students[i] = students[i+1];
+					students[i+1] = p1;
+				}
+			}
+		}
+}
+
+int toLower(char ch) {
+	if(ch >= 'A' && ch <= 'Z') {
+		ch = ch + 32;
+	}
+	return ch;
+}
+
+int toUpper(char ch) {
+	if(ch >= 'a' && ch <= 'z') {
+		ch = ch - 32;
+	}
+	return ch;
+}
+
+int stringCompare(char s1[], char s2[]) {
+int i;
+	for(i=0;s1[i]!='\0';i++) {
+		if(i==0){
+			s1[i] = toUpper(s1[i]);
+			s2[i] = toUpper(s2[i]);
+		}
+
+		if(i!=0){
+			s1[i] = toLower(s1[i]);
+			s2[i] = toLower(s2[i]);
+		}
+	}
+
+i = 0;
+	while(s1[i]==s2[i] && s1[i]!='\0' && s2[i]!='\0'){
+		i++;
+	}
+	if (s1[i]>s2[i]) {
+		return 1;
+	} else if (s1[i]<s2[i]) {
+		return -1;
+	} else if (s1[i]==s2[i]) {
+		return 0;
+	}
+}
+
+void displayStuds() {
+	int i;
+	int max1=0;
+	int max2=0;
+	int max3=0;
+	int totalMax=0;
+	int min1=999999;
+	int min2=999999;
+	int min3=999999;
+	int totalMin=999999;
+	float average1 = 0;
+	float average2 = 0;
+	float average3 = 0;
+	double standD1 = 0;
+	double standD2 = 0;
+	double standD3 = 0;
+	float averageTotal = 0;
+	double standTotal = 0;
+	printf("ID\tSurname\t\tFirstname\t\tSection\t\tScore1\tScore2\tScore3\tTotal   Grade\tSub1\t\tSub2\t        Sub3\n");
+	for(i=0;i<numOfElements;i++) {
+			printf("[%d]\t", students[i].id);
+			printf("[%s]", students[i].lastName);
+			tabs1(students[i].lastName);
+			printf("[%s]", students[i].firstName);
+			tabs2(students[i].firstName);
+			printf("[%s]", students[i].section);
+			tabs1(students[i].section);
+			printf("[%d]\t", students[i].score1);
+			printf("[%d]\t", students[i].score2);
+			printf("[%d]\t", students[i].score3);
+			printf("[%d]\t", students[i].total);
+		char grade[2]={};
+            if(students[i].total>=135){
+                sprintf(grade,"%s", "HD");
+            } else if(students[i].total>=120&&students[i].total<=134) {
+                sprintf(grade,"%s", "D ");
+            } else if(students[i].total>=100&&students[i].total<=119) {
+                sprintf(grade,"%s", "P ");
+            } else if(students[i].total>=75&&students[i].total<=99) {
+                sprintf(grade,"%s", "C ");
+            } else if(students[i].total<=74) {
+                sprintf(grade,"%s", "F ");
+            }
+            printf("[%s]    ", grade);
+			printf("[%s]\t", students[i].sub1);
+			printf("[%s]", students[i].sub2);
+			tabs3(students[i].sub2);
+			printf("[%s]\n", students[i].sub3);
+	}
+		for(i=0;i<numOfElements;i++) {
+			if(students[i].score1>max1) {
+				max1=students[i].score1;
+			}
+			if(students[i].score2>max2) {
+				max2=students[i].score2;
+			}
+			if(students[i].score3>max3) {
+				max3=students[i].score3;
+			}
+			if(students[i].total>totalMax) {
+				totalMax=students[i].total;
+			}
+			if(students[i].score1<min1) {
+				min1=students[i].score1;
+			}
+			if(students[i].score2<min2) {
+				min2=students[i].score2;
+			}
+			if(students[i].score3<min3) {
+				min3=students[i].score3;
+			}
+			if(students[i].total<totalMin) {
+				totalMin=students[i].total;
+			}
+			average1 += students[i].score1;
+			average2 += students[i].score2;
+			average3 += students[i].score3;
+			averageTotal += students[i].total;
+		}
+			average1 /= numOfElements;
+			average2 /= numOfElements;
+			average3 /= numOfElements;
+			averageTotal /= numOfElements;
+int x;
+			for(x=0;x<numOfElements;x++){
+				standD1 += (students[x].score1-average1)*(students[x].score1-average1);
+				standD2 += (students[x].score2-average2)*(students[x].score2-average2);
+				standD3 += (students[x].score3-average3)*(students[x].score3-average3);
+				standTotal += (students[x].total-average3)*(students[x].score3-average3);
+			}
+				standD1 = sqrt(standD1/numOfElements);
+				standD2 = sqrt(standD2/numOfElements);
+				standD3 = sqrt(standD3/numOfElements);
+				standTotal = sqrt(standTotal/numOfElements);
+				
+	printf("\n\t                    \t\t\t       AVERAGE: [%.3f][%.3f][%.3f][%.3f]\n", average1,average2,average3,averageTotal);
+	printf("\t                      \t\t\t\t   MAX: [%d]\t[%d]\t[%d]\t[%d]\n", max1,max2,max3,totalMax);
+	printf("\t# of Students = [%d]  \t\t\t\t   MIN: [%d]\t[%d]\t[%d]\t[%d]\n", numOfElements,min1,min2,min3,totalMin);
+	printf("\t                    \t\t\t\t    SD: [%.3lf][%.3lf][%.3lf][%.3lf]\n", standD1,standD2,standD3,standTotal);
+system("pause");				
+}
+
+//TABS SERIES (Used for formatting). XD
+void tabs1(char word[]) {
+	int counter=0;
+		while(word[counter]!='\0') {
+			counter++;
+		}
+		if(counter<10) {
+			printf("\t");
+		}
+		if(counter<=5) {
+			printf("\t");
+		}
+		if(counter<14&&counter>=10) {
+			printf("\t");
+		}
+}
+
+void tabs2(char word[]) {
+	int counter=0;
+		while(word[counter]!='\0') {
+			counter++;
+		}
+		if(counter<10) {
+			printf("\t");
+		}
+		if(counter<=5) {
+			printf("\t");
+		}
+		if(counter<14&&counter>=10) {
+			printf("\t");
+		}
+		if(counter<24) {
+			printf("\t");
+		}
+}
+
+void tabs3(char word[]) {
+	int counter=0;
+		while(word[counter]!='\0') {
+			counter++;
+		}
+		if(counter<=8) {
+			printf("\t");
+		}
+		if(counter<6) {
+			printf("\t");
+		}
+}
+
+void tabs4(char word[]) {
+	int counter=0;
+		while(word[counter]!='\0') {
+			counter++;
+		}
+		if(counter<=8) {
+			printf("\t");
+		}
+		if(counter<=6) {
+			printf("\t");
+		}
+}
+
+void searchStuds() {
+	char sname[100];
+	int i;
+	int checke;
+	int error=1;
+	system("cls");
+	while(error==1) {
+	printf("Input Last Name of Student: ");
+	scanf(" %[^\n]", sname);
+		for(i=0;i<numOfElements;i++) {
+			if(stringCompare(sname,students[i].lastName)==0) {
+	printf("\nID\tSurname\t\tFirstname\t\tSection\t\tScore1\tScore2\tScore3\tTotal   Grade\tSub1\t\tSub2\t        Sub3\n");
+			printf("[%d]\t", students[i].id);
+			printf("[%s]", students[i].lastName);
+			tabs1(students[i].lastName);
+			printf("[%s]", students[i].firstName);
+			tabs2(students[i].firstName);
+			printf("[%s]", students[i].section);
+			tabs1(students[i].section);
+			printf("[%d]\t", students[i].score1);
+			printf("[%d]\t", students[i].score2);
+			printf("[%d]\t", students[i].score3);
+			printf("[%d]\t", students[i].total);
+		char grade[2]={};
+            if(students[i].total>=135){
+                sprintf(grade,"%s", "HD");
+            } else if(students[i].total>=120&&students[i].total<=134) {
+                sprintf(grade,"%s", "D ");
+            } else if(students[i].total>=100&&students[i].total<=119) {
+                sprintf(grade,"%s", "P ");
+            } else if(students[i].total>=75&&students[i].total<=99) {
+                sprintf(grade,"%s", "C ");
+            } else if(students[i].total<=74) {
+                sprintf(grade,"%s", "F ");
+            }
+            printf("[%s]    ", grade);
+			printf("[%s]\t", students[i].sub1);
+			printf("[%s]", students[i].sub2);
+			tabs3(students[i].sub2);
+			printf("[%s]\n", students[i].sub3);
+			} else if(i==numOfElements) {
+				system("cls");
+				printf("\nStudent does not Exist\n");
+					printf("1. [Continue]\t 2. [Back to Menu]\n Choice: ");
+					scanf("%d", &error);
+						if(error!=1) {
+							break;
+						}
+			}
+		}
+		error=2;
+	}
+}
+
+//Function to Update an Existing Student Information
+
+void updateStuds() {
+	int idExist=-1;
+	int idNumber, i;
+	int error=1;
+		while(idExist==-1) {
+			printf("Input ID number of Student: ");
+			scanf("%d", &idNumber);
+			idExist=0;
+				for(i=0;i<=numOfElements;i++) {
+					if(i==numOfElements) {
+						system("cls");
+						printf("ID Number does not Exist\n\n");
+						printf("\n1. [Continue]\t 2. [Back to Menu]\n Choice: ");
+						scanf("%d", &error);
+						if(error!=1) {
+							system("cls");
+							error=2;
+							printf("\n\n[UNSUCCESSFUL IN UPDATING A STUDENT RECORD]\n");
+							system("pause");
+							system("cls");
+							break;
+						} else {
+							idExist=-1;
+						}
+					} else if(idNumber==students[i].id) {
+						idExist = i;
+			printf("\nID\tSurname\t\tFirstname\t\tSection\t\tScore1\tScore2\tScore3\tTotal   Grade\tSub1\t\tSub2\t        Sub3\n");
+			printf("[%d]\t", students[i].id);
+			printf("[%s]", students[i].lastName);
+			tabs1(students[i].lastName);
+			printf("[%s]", students[i].firstName);
+			tabs2(students[i].firstName);
+			printf("[%s]", students[i].section);
+			tabs1(students[i].section);
+			printf("[%d]\t", students[i].score1);
+			printf("[%d]\t", students[i].score2);
+			printf("[%d]\t", students[i].score3);
+			students[i].total=students[i].score1+students[i].score2+students[i].score3;
+			printf("[%d]\t", students[i].total);
+		char grade[2]={};
+            if(students[i].total>=135){
+                sprintf(grade,"%s", "HD");
+            } else if(students[i].total>=120&&students[i].total<=134) {
+                sprintf(grade,"%s", "D ");
+            } else if(students[i].total>=100&&students[i].total<=119) {
+                sprintf(grade,"%s", "P ");
+            } else if(students[i].total>=75&&students[i].total<=99) {
+                sprintf(grade,"%s", "C ");
+            } else if(students[i].total<=74) {
+                sprintf(grade,"%s", "F ");
+            }
+            printf("[%s]    ", grade);
+			printf("[%s]\t", students[i].sub1);
+			printf("[%s]", students[i].sub2);
+			tabs3(students[i].sub2);
+			printf("[%s]\n", students[i].sub3);
+			break;
+					}
+				}
+int updateChoice;
+if(error==1) {
+		printf("\n[DATA TO UPDATE]");
+		printf("1. Last Name\t 2. First Name\t 3. Section\t 4. Score1\t 5. Score2\t 6. Score3\t0. Exit\n [Choice]: ");
+		scanf("%d", &updateChoice);
+	}
+switch(updateChoice) {
+int input=-1;
+		case 1:
+printf("\n[INPUT]: ");
+scanf(" %[^\n]", students[idExist].lastName);
+		break;	
+		case 2:
+printf("\n[INPUT]: ");
+scanf(" %[^\n]", students[idExist].firstName);
+		break;
+		case 3:
+printf("\n[INPUT]: ");
+scanf(" %[^\n]", students[idExist].section);
+		break;
+		case 4:
+while(input<0||input>50) {
+printf("\n[INPUT]: ");
+scanf("%d", &input);
+	if(input>=0&&input<=50) {
+		students[idExist].score1=(students[idExist].score1-students[idExist].score1)+input;
+	} else {
+		printf("[Score must be between 0 and 50]");
+	}
+}
+		break;
+		case 5:
+while(input<0||input>50) {
+printf("\n[INPUT]: ");
+scanf("%d", &input);
+	if(input>=0&&input<=50) {
+students[idExist].score2=(students[idExist].score2-students[idExist].score2)+input;
+	} else {
+		printf("[Score must be between 0 and 50]");
+	}
+}
+		break;
+		case 6:
+while(input<0||input>50) {
+printf("\n[INPUT]: ");
+scanf("%d", &input);
+	if(input>=0&&input<=50) {
+students[idExist].score3=(students[idExist].score3-students[idExist].score3)+input;
+	} else {
+		printf("[Score must be between 0 and 50]");
+	}
+}
+		break;
+		default:
+		printf("\n\n[UNSUCCESSFUL IN UPDATING A STUDENT RECORD]\n");
+		break;
+	}
+	}
+	}
+	
+void addStuds() {
+	int input=-1;
+	int idNumber=111+numOfElements;
+	students[numOfElements].id=(students[numOfElements].id-students[numOfElements].id)+idNumber;
+	printf("\nInput Last Name: ");
+	scanf(" %[^\n]", students[numOfElements].lastName);
+	printf("\nInput First Name: ");
+	scanf(" %[^\n]", students[numOfElements].firstName);
+	printf("\nInput Section: ");
+	scanf(" %[^\n]", students[numOfElements].section);
+while(input<0||input>50) {
+	printf("\nInput Score 1: ");
+		scanf("%d", &input);
+	if(input>=0&&input<=50) {
+		students[numOfElements].score1=(students[numOfElements].score1-students[numOfElements].score1)+input;
+	} else {
+		printf("[Score must be between 0 and 50]");
+	}
+}
+input=-1;
+while(input<0||input>50) {
+	printf("\nInput Score 2: ");
+		scanf("%d", &input);
+	if(input>=0&&input<=50) {
+		students[numOfElements].score2=(students[numOfElements].score2-students[numOfElements].score2)+input;
+	} else {
+		printf("[Score must be between 0 and 50]");
+	}
+}
+input=-1;
+while(input<0||input>50) {
+	printf("\nInput Score 3: ");
+		scanf("%d", &input);
+	if(input>=0&&input<=50) {
+		students[numOfElements].score3=(students[numOfElements].score3-students[numOfElements].score3)+input;
+	} else {
+		printf("[Score must be between 0 and 50]");
+	}
+}
+students[numOfElements].total=students[numOfElements].score1+students[numOfElements].score2+students[numOfElements].score3;
+char *pt1, *pt2, *pt3;
+
+pt1=students[numOfElements].sub1;
+pt2=students[numOfElements].sub2;
+pt3=students[numOfElements].sub3;
+
+char ch1[10]="CMCS11";
+char ch2[10]="none";
+char ch3[10]="none";
+sprintf(students[numOfElements].sub1,"%s",ch1);
+sprintf(students[numOfElements].sub2,"%s",ch2);
+sprintf(students[numOfElements].sub3,"%s",ch3);
+numOfElements++;
+	printf("\n[SUCCESFULY ADDED A STUDENT]");
+	system("pause");
+	system("cls");
+}
+
+void deleteStuds() {
+	int idExist=-1;
+	int idNumber;
+	int i;
+	int error;
+			while(idExist==-1) {
+			printf("Input ID number of Student: ");
+			scanf("%d", &idNumber);
+			idExist=0;
+				for(i=0;i<=numOfElements;i++) {
+					if(i==numOfElements) {
+						system("cls");
+						printf("ID Number does not Exist\n\n");
+						printf("\n1. [Continue]\t 2. [Back to Menu]\n Choice: ");
+						scanf("%d", &error);
+						if(error!=1) {
+							system("cls");
+							error=2;
+							printf("\n\n[UNSUCCESSFUL IN DELETING A STUDENT RECORD]\n");
+							system("pause");
+							system("cls");
+							break;
+						} else {
+							idExist=-1;
+						}
+					} else if(idNumber==students[i].id) {
+						idExist = i;
+			printf("\nID\tSurname\t\tFirstname\t\tSection\t\tScore1\tScore2\tScore3\tTotal   Grade\tSub1\t\tSub2\t        Sub3\n");
+			printf("[%d]\t", students[i].id);
+			printf("[%s]", students[i].lastName);
+			tabs1(students[i].lastName);
+			printf("[%s]", students[i].firstName);
+			tabs2(students[i].firstName);
+			printf("[%s]", students[i].section);
+			tabs1(students[i].section);
+			printf("[%d]\t", students[i].score1);
+			printf("[%d]\t", students[i].score2);
+			printf("[%d]\t", students[i].score3);
+			students[i].total=students[i].score1+students[i].score2+students[i].score3;
+			printf("[%d]\t", students[i].total);
+		char grade[2]={};
+            if(students[i].total>=135){
+                sprintf(grade,"%s", "HD");
+            } else if(students[i].total>=120&&students[i].total<=134) {
+                sprintf(grade,"%s", "D ");
+            } else if(students[i].total>=100&&students[i].total<=119) {
+                sprintf(grade,"%s", "P ");
+            } else if(students[i].total>=75&&students[i].total<=99) {
+                sprintf(grade,"%s", "C ");
+            } else if(students[i].total<=74) {
+                sprintf(grade,"%s", "F ");
+            }
+            printf("[%s]    ", grade);
+			printf("[%s]\t", students[i].sub1);
+			printf("[%s]", students[i].sub2);
+			tabs3(students[i].sub2);
+			printf("[%s]\n", students[i].sub3);
+			break;
+					}
+				}
+			for(i=0;i<numOfElements;i++) {
+				if(i>idExist) {
+					students[i-1]=students[i];
+				}
+			}
+		printf("\n\n[SUCCESSFUL IN DELETING A STUDENT RECORD]\n");
+		system("pause");
+		system("cls");
+		}
+	numOfElements-=1;
+}
+
+void exportStuds() {
+	int i;
+	int max1=0;
+	int max2=0;
+	int max3=0;
+	int totalMax=0;
+	int min1=999999;
+	int min2=999999;
+	int min3=999999;
+	int totalMin=999999;
+	float average1 = 0;
+	float average2 = 0;
+	float average3 = 0;
+	double standD1 = 0;
+	double standD2 = 0;
+	double standD3 = 0;
+	float averageTotal = 0;
+	double standTotal = 0;
+
+	for(i=0;i<numOfElements;i++) {
+            if(students[i].score1>max1) {
+				max1=students[i].score1;
+			}
+			if(students[i].score2>max2) {
+				max2=students[i].score2;
+			}
+			if(students[i].score3>max3) {
+				max3=students[i].score3;
+			}
+			if(students[i].total>totalMax) {
+				totalMax=students[i].total;
+            }
+			if(students[i].total<totalMin) {
+				totalMin=students[i].total;
+            }
+			if(students[i].score1<min1) {
+				min1=students[i].score1;
+			}
+			if(students[i].score2<min2) {
+				min2=students[i].score2;
+			}
+			if(students[i].score3<min3) {
+				min3=students[i].score3;
+			}
+
+			average1 += students[i].score1;
+			average2 += students[i].score2;
+			average3 += students[i].score3;
+			averageTotal += students[i].total;
+		}
+			average1 /= numOfElements;
+			average2 /= numOfElements;
+			average3 /= numOfElements;
+			averageTotal /= numOfElements;
+
+				standD1 = sqrt(standD1/numOfElements);
+				standD2 = sqrt(standD2/numOfElements);
+				standD3 = sqrt(standD3/numOfElements);
+				standTotal = sqrt(standTotal/numOfElements);
+
+    for(i=0;i<numOfElements;i++){
+				standD1 += (students[i].score1-average1)*(students[i].score1-average1);
+				standD2 += (students[i].score2-average2)*(students[i].score2-average2);
+				standD3 += (students[i].score3-average3)*(students[i].score3-average3);
+				standTotal += (students[i].total-averageTotal)*(students[i].total-averageTotal);
+			}
+	char fileTitle[100];
+	char fileExt[100];
+	FILE *fPointer;
+	printf("[FILE NAME]: ");
+	scanf(" %[^\n]", fileTitle);
+	printf("[FILE Extension]: ");
+	scanf(" %[^\n]", fileExt);
+	strcat(fileTitle,fileExt);
+	fPointer = fopen(fileTitle, "w+");
+		for(i=0;i<numOfElements;i++) {
+            char grade[2]={};
+            if(students[i].total>=135){
+                sprintf(grade,"%s", "HD");
+            } else if(students[i].total>=120&&students[i].total<=134) {
+                sprintf(grade,"%s", "D ");
+            } else if(students[i].total>=100&&students[i].total<=119) {
+                sprintf(grade,"%s", "P ");
+            } else if(students[i].total>=75&&students[i].total<=99) {
+                sprintf(grade,"%s", "C ");
+            } else if(students[i].total<=74) {
+                sprintf(grade,"%s", "F ");
+            }
+			if(students[i].id!=0) {
+				if(i==0) {
+					fprintf(fPointer, "%d, %s, %s, %s, %d, %d, %d, %d, %s, %s, %s, %s",
+													students[i].id,
+													students[i].lastName,
+													students[i].firstName,
+													students[i].section,
+													students[i].score1,
+													students[i].score2,
+													students[i].score3,
+													students[i].total,
+													grade,
+													students[i].sub1,
+													students[i].sub2,
+													students[i].sub3
+													);
+				} else {
+					fprintf(fPointer, "\n%d, %s, %s, %s, %d, %d, %d, %d, %s, %s, %s, %s",
+													students[i].id,
+													students[i].lastName,
+													students[i].firstName,
+													students[i].section,
+													students[i].score1,
+													students[i].score2,
+													students[i].score3,
+													students[i].total,
+													grade,
+													students[i].sub1,
+													students[i].sub2,
+													students[i].sub3
+													);
+				}
+		}
+		
+	}
+	fprintf(fPointer, " \n  Score 1, Min = %d\t, Score 2, Min = %d\t, Score 3, Min = %d, Total Min = %d\
+                        \n  Score 1, Max = %d\t, Score 2, Max = %d\t, Score 3, Max = %d, Total Max = %d\
+                        \n  Score 1, Average = %.3f\t, Score 2, Average = %.3f\t, Score 3, Average = %.3f, Total Average = %.3f\
+                        \n  Score 1, SD = %.3lf\t, Score 2, SD = %.3lf\t, Score 3, SD = %.3lf, Total SD = %.3lf",
+                    min1,min2,min3,totalMin,max1,max2,max3,totalMax,average1,average2,average3,averageTotal,standD1,standD2,standD3,standTotal);                    
+	fclose(fPointer);
+	printf("\n[SUCCESFULY EXPORTED TO FILE]\n");
+	system("pause");
+	system("cls");
+}
+
+void importSubs() {
+	//This will be the File to be Opened
+	FILE *fPointer;
+	char name[100];
+	int i=0;
+	printf("[File Name (ex. file1.txt)]: ");
+	scanf(" %[^\n]", name);
+	fPointer = fopen(name, "r+");
+	if(fPointer==NULL) {
+		printf("\n[No file existing under that name]\n");
+		system("pause");
+		system("cls");
+	} else {
+	numberOfSubs=0;
+		while(!feof(fPointer)) {
+			numberOfSubs++;
+			fscanf(fPointer, "%d,%[^,],%[^\n]", &p2.idSub, p2.codeSub, p2.titleSub);
+			subs[i]=p2;
+			i++;
+	alphabetize();
+	}
+	printf("SUCCESFULY IMPORTED FILE\n");
+	system("pause");
+	system("cls");
+}
+	fclose(fPointer);
+}
+
+void displaySubs() {
+	int i;
+	printf("ID\tSUBJECT\t\tTITLE\n");
+	for(i=0;i<numberOfSubs;i++) {
+			printf("[%d]\t", subs[i].idSub);
+			printf("[%s]", subs[i].codeSub);
+			tabs1(subs[i].codeSub);
+			printf("[%s]", subs[i].titleSub);
+			printf("\n");
+	}
+system("pause");				
+}
+
+void deleteSubs() {
+	int idExist=-1;
+	char idNumber[100];
+	int i;
+	int error;
+			while(idExist==-1) {
+			printf("Input Subject Code to Delete: ");
+			scanf("%s", idNumber);
+			idExist=0;
+				for(i=0;i<=numberOfSubs;i++) {
+					char test[100];
+					sprintf(test,"%s",subs[i].codeSub);
+					if(i==numberOfSubs) {
+						system("cls");
+						printf("Subject does not Exist\n\n");
+						printf("\n1. [Continue]\t 2. [Back to Menu]\n Choice: ");
+						scanf("%d", &error);
+						if(error!=1) {
+							system("cls");
+							error=2;
+							printf("\n\n[UNSUCCESSFUL IN DELETING A SUBJECT RECORD]\n");
+							system("pause");
+							system("cls");
+							break;
+						} else {
+							idExist=-1;
+						}
+					} else if(stringCompare(idNumber,test)==0) {
+						idExist = i;
+							printf("ID\tSUBJECT\t\tTITLE\n");
+							printf("[%d]\t", subs[i].idSub);
+							printf("[%s]", subs[i].codeSub);
+							tabs1(subs[i].codeSub);
+							printf("[%s]", subs[i].titleSub);
+							printf("\n");
+							break;
+					}
+				}
+			for(i=0;i<numberOfSubs;i++) {
+				if(i>idExist) {
+					subs[i-1]=subs[i];
+				}
+			}
+		printf("\n\n[SUCCESSFUL IN DELETING A SUBJECT RECORD]\n");
+		system("pause");
+		system("cls");
+		}
+	numberOfSubs-=1;
+}
+
+void addSubs() {
+	int idNumber=11+numberOfSubs;
+	subs[numberOfSubs].idSub=(subs[numberOfSubs].idSub-subs[numberOfSubs].idSub)+idNumber;
+	printf("\nInput Subject Code: ");
+	scanf(" %[^\n]", subs[numberOfSubs].codeSub);
+	printf("\nInput Subject Title: ");
+	scanf(" %[^\n]", subs[numberOfSubs].titleSub);
+
+numberOfSubs++;
+	printf("\n[SUCCESFULY ADDED A SUBJECT]\n");
+	system("pause");
+	system("cls");
+}
+
+void updateSubs() {
+	int idExist=-1;
+	char idNumber[100];
+	int i;
+	int error;
+			while(idExist==-1) {
+			printf("Input Subject Code to Update: ");
+			scanf("%s", idNumber);
+			idExist=0;
+				for(i=0;i<=numberOfSubs;i++) {
+					char test[100];
+					sprintf(test,"%s",subs[i].codeSub);
+					if(i==numberOfSubs) {
+						system("cls");
+						printf("Subject does not Exist\n\n");
+						printf("\n1. [Continue]\t 2. [Back to Menu]\n Choice: ");
+						scanf("%d", &error);
+						if(error!=1) {
+							system("cls");
+							error=2;
+							printf("\n\n[UNSUCCESSFUL IN DELETING A SUBJECT RECORD]\n");
+							system("pause");
+							system("cls");
+							break;
+						} else {
+							idExist=-1;
+						}
+					} else if(stringCompare(idNumber,test)==0) {
+						idExist = i;
+						error=1;
+							printf("ID\tSUBJECT\t\tTITLE\n");
+							printf("[%d]\t", subs[i].idSub);
+							printf("[%s]", subs[i].codeSub);
+							tabs1(subs[i].codeSub);
+							printf("[%s]", subs[i].titleSub);
+							printf("\n");
+							break;
+					}
+				}
+int updateChoice;
+if(error==1) {
+		printf("\n[DATA TO UPDATE]\n");
+		printf("1. Subject Code\t 2. Subject Title\t 0. Exit\n [Choice]: ");
+		scanf("%d", &updateChoice);
+	}
+switch(updateChoice) {
+int input=-1;
+		case 1:
+printf("\n[INPUT]: ");
+scanf(" %[^\n]", subs[idExist].codeSub);
+		break;	
+		case 2:
+printf("\n[INPUT]: ");
+scanf(" %[^\n]", subs[idExist].titleSub);
+		break;
+		default:
+		printf("\n\n[UNSUCCESSFUL IN UPDATING A SUBJECT RECORD]\n");
+		break;
+	}
+	}
+}
+
+void searchSubs() {
+	int idExist=-1;
+	char idNumber[100];
+	int i;
+	int error;
+			while(idExist==-1) {
+			printf("Input Subject Code to Search: ");
+			scanf(" %[^\n]", idNumber);
+			idExist=0;
+				for(i=0;i<=numberOfSubs;i++) {
+					char test[100];
+					sprintf(test,"%s",subs[i].codeSub);
+					if(i==numberOfSubs) {
+						system("cls");
+						printf("Subject does not Exist\n\n");
+						printf("\n1. [Continue]\t 2. [Back to Menu]\n Choice: ");
+						scanf("%d", &error);
+						if(error!=1) {
+							system("cls");
+							error=2;
+							printf("\n\n[UNSUCCESSFUL IN SEARCHING A SUBJECT RECORD]\n");
+							system("pause");
+							system("cls");
+							break;
+						} else {
+							idExist=-1;
+						}
+					} else if(stringCompare(idNumber,test)==0) {
+						idExist = i;
+						error=1;
+							printf("ID\tSUBJECT\t\tTITLE\n");
+							printf("[%d]\t", subs[i].idSub);
+							printf("[%s]", subs[i].codeSub);
+							tabs1(subs[i].codeSub);
+							printf("[%s]", subs[i].titleSub);
+							printf("\n");
+							break;
+					}
+				}
+			}
+		}
+		
+void enrollStuds() {
+	int idExist=-1;
+	int idNumber;
+	int i;
+	int error;
+			while(idExist==-1) {
+			printf("Input ID number of Student: ");
+			scanf("%d", &idNumber);
+			idExist=0;
+				for(i=0;i<=numOfElements;i++) {
+					if(i==numOfElements) {
+						system("cls");
+						printf("ID Number does not Exist\n\n");
+						printf("\n1. [Continue]\t 2. [Back to Menu]\n Choice: ");
+						scanf("%d", &error);
+						if(error!=1) {
+							system("cls");
+							error=2;
+							printf("\n\n[UNSUCCESSFUL IN ENROLLING A STUDENT]\n");
+							system("pause");
+							system("cls");
+							break;
+						} else {
+							idExist=-1;
+						}
+					} else if(idNumber==students[i].id) {
+						idExist = i;
+			printf("\nID\tSurname\t\tFirstname\t\tSection\t\tScore1\tScore2\tScore3\tTotal   Grade\tSub1\t\tSub2\t        Sub3\n");
+			printf("[%d]\t", students[i].id);
+			printf("[%s]", students[i].lastName);
+			tabs1(students[i].lastName);
+			printf("[%s]", students[i].firstName);
+			tabs2(students[i].firstName);
+			printf("[%s]", students[i].section);
+			tabs1(students[i].section);
+			printf("[%d]\t", students[i].score1);
+			printf("[%d]\t", students[i].score2);
+			printf("[%d]\t", students[i].score3);
+			students[i].total=students[i].score1+students[i].score2+students[i].score3;
+			printf("[%d]\t", students[i].total);
+		char grade[2]={};
+            if(students[i].total>=135){
+                sprintf(grade,"%s", "HD");
+            } else if(students[i].total>=120&&students[i].total<=134) {
+                sprintf(grade,"%s", "D ");
+            } else if(students[i].total>=100&&students[i].total<=119) {
+                sprintf(grade,"%s", "P ");
+            } else if(students[i].total>=75&&students[i].total<=99) {
+                sprintf(grade,"%s", "C ");
+            } else if(students[i].total<=74) {
+                sprintf(grade,"%s", "F ");
+            }
+            printf("[%s]    ", grade);
+			printf("[%s]\t", students[i].sub1);
+			printf("[%s]", students[i].sub2);
+			tabs3(students[i].sub2);
+			printf("[%s]\n", students[i].sub3);
+			break;
+					}
+		}
+	}
+}
+
+void exportSubs() {
+	int i;
+	char fileTitle[100];
+	char fileExt[100];
+	FILE *fPointer;
+	printf("[FILE NAME]: ");
+	scanf(" %[^\n]", fileTitle);
+	fPointer = fopen(fileTitle, "w+");
+		for(i=0;i<numberOfSubs;i++) {
+				if(i==0) {
+					fprintf(fPointer, "%d  %s, %s",
+													subs[i].idSub,
+													subs[i].codeSub,
+													subs[i].titleSub
+													);
+				} else {
+					fprintf(fPointer, "\n%d, %s, %s",
+													subs[i].idSub,
+													subs[i].codeSub,
+													subs[i].titleSub
+													);
+				}
+		}
+	fclose(fPointer);	
+}
+
+void dropStuds() {
+	int idExist=-1;
+	int idNumber;
+	int i;
+	int error;
+			while(idExist==-1) {
+			printf("Input ID number of Student: ");
+			scanf("%d", &idNumber);
+			idExist=0;
+				for(i=0;i<=numOfElements;i++) {
+					if(i==numOfElements) {
+						system("cls");
+						printf("ID Number does not Exist\n\n");
+						printf("\n1. [Continue]\t 2. [Back to Menu]\n Choice: ");
+						scanf("%d", &error);
+						if(error!=1) {
+							system("cls");
+							error=2;
+							printf("\n\n[UNSUCCESSFUL IN DROPPING A SUBJECT]\n");
+							system("pause");
+							system("cls");
+							break;
+						} else {
+							idExist=-1;
+						}
+					} else if(idNumber==students[i].id) {
+						idExist = i;
+			printf("\nID\tSurname\t\tFirstname\t\tSection\t\tScore1\tScore2\tScore3\tTotal   Grade\tSub1\t\tSub2\t        Sub3\n");
+			printf("[%d]\t", students[i].id);
+			printf("[%s]", students[i].lastName);
+			tabs1(students[i].lastName);
+			printf("[%s]", students[i].firstName);
+			tabs2(students[i].firstName);
+			printf("[%s]", students[i].section);
+			tabs1(students[i].section);
+			printf("[%d]\t", students[i].score1);
+			printf("[%d]\t", students[i].score2);
+			printf("[%d]\t", students[i].score3);
+			students[i].total=students[i].score1+students[i].score2+students[i].score3;
+			printf("[%d]\t", students[i].total);
+		char grade[2]={};
+            if(students[i].total>=135){
+                sprintf(grade,"%s", "HD");
+            } else if(students[i].total>=120&&students[i].total<=134) {
+                sprintf(grade,"%s", "D ");
+            } else if(students[i].total>=100&&students[i].total<=119) {
+                sprintf(grade,"%s", "P ");
+            } else if(students[i].total>=75&&students[i].total<=99) {
+                sprintf(grade,"%s", "C ");
+            } else if(students[i].total<=74) {
+                sprintf(grade,"%s", "F ");
+            }
+            printf("[%s]    ", grade);
+			printf("[%s]\t", students[i].sub1);
+			printf("[%s]", students[i].sub2);
+			tabs3(students[i].sub2);
+			printf("[%s]\n", students[i].sub3);
+			break;
+					}
+				}
+			}
+}
+
+
+//End of Program [THANKS FOR READING]
