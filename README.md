@@ -15,13 +15,23 @@ I hope you can learn with the help of this program :):)
 
 Detailed Features:
 Alphabetization (Sorting of Last Names)			(DONE)
+
 Struct to File and vice versa of Subjects		(DONE)
+
 Make file for subjects					(DONE)
+
 Statistics						(DONE)
+
 Convert database.txt to database.csv			(DONE)
+
 Drop a Subject						(NOT DONE)
+
 Enroll a Subject 					(NOT DONE)
+
 Search Student Record Using an ID			(DONE)
+
 Search Subject Record Using an ID			(DONE)
+
 Delete, Update, Search					(DONE)
+
 Import and Export					(DONE)
