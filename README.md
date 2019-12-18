@@ -12,3 +12,16 @@ My Final project in CMSC11
 *This Program can enroll or drop student to a subject and directly update the changes to the file itself however its not yet working for now.
 *And lastly, All the things that you have made can be imported and exported to a files and convert it into csv.
 I hope you can learn with the help of this program :):)
+
+Detailed Features:
+Alphabetization (Sorting of Last Names)			(DONE)
+Struct to File and vice versa of Subjects		(DONE)
+Make file for subjects					(DONE)
+Statistics						(DONE)
+Convert database.txt to database.csv			(DONE)
+Drop a Subject						(NOT DONE)
+Enroll a Subject 					(NOT DONE)
+Search Student Record Using an ID			(DONE)
+Search Subject Record Using an ID			(DONE)
+Delete, Update, Search					(DONE)
+Import and Export					(DONE)
