@@ -14,6 +14,7 @@ My Final project in CMSC11
 I hope you can learn with the help of this program :):)
 
 Detailed Features:
+
 Alphabetization (Sorting of Last Names)			(DONE)
 
 Struct to File and vice versa of Subjects		(DONE)
