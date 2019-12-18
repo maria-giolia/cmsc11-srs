@@ -9,6 +9,6 @@ My Final project in CMSC11
 *This Program can also Search Subject Record - By just entering the Subject Code,you can directly search for that specific subject. Take note that this program is case insensitive because we are ready for any users behavior.
 *This Program can also Delete Subject Record - By just entering the Subject ID which is displayed in the console you can easily choose which student to delete. Take note that CMCS11 can never be deleted because this is a prerequisite to every student.
 *This Program can also Display All Student and Subject Records
-*This Program can enroll or drop student to a subject and directly update the changes to the file itself.
+*This Program can enroll or drop student to a subject and directly update the changes to the file itself however its not yet working for now.
 *And lastly, All the things that you have made can be imported and exported to a files and convert it into csv.
 I hope you can learn with the help of this program :):)
