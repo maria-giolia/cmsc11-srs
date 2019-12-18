@@ -1,7 +1,7 @@
 # cmsc11-srs
 My Final project in CMSC11
 
-*This program was made for our Final project in CMSC11. This is our own made Student Resgistration Program where you can create and enroll students to a subject. With the help of this program, we can now easily finish our task specially teachers nowadays are busy and there are much things to be done.With this, in just a click click in your keyboard you can directly convert in into csv file.
+*This program was made for our Final project in CMSC11. This is our own made Student Resgistration System where you can create and enroll students to a subject. With the help of this program, we can now easily finish our task specially teachers nowadays are busy and there are much things to be done.With this, in just a click click in your keyboard you can directly convert in into csv file.
 *This program can Create or Update Student Record- You can add and update the name, surname, section, and 3 of his/her scores. More importantly the student ID is already randomize by the program and is surely unique.
 *This Program can also Search student Record - By just entering the Student surname,you can directly search for that specific student. Take note that this program is case insensitive because we are ready for any users behavior.
 *This Program can also Delete Student Record - By just entering the Student ID which is displayed in the console you can easily choose which student to delete
